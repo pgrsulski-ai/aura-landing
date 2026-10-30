@@ -20,15 +20,12 @@
       color: #f3f4f6;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     }
-    .neon-glow {
-      box-shadow: 0 0 35px -5px rgba(6, 182, 212, 0.35);
-    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
 
   <!-- Navigation -->
-  <header class="border-b border-gray-800/80 bg-gray-950/70 backdrop-blur-md sticky top-0 z-50">
+  <header class="border-b border-gray-800/80 bg-gray-950/70 backdrop-blur-md sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
       <div class="flex items-center space-x-3">
         <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center font-black text-black text-lg">
@@ -99,22 +96,65 @@
             <h3 id="modal-title" class="text-xl md:text-2xl font-bold mt-1 text-white"></h3>
             <span id="modal-meta" class="text-xs text-gray-500 mt-1 block"></span>
           </div>
-          <button id="modal-close" class="text-gray-400 hover:text-white text-2xl font-bold p-1">&times;</button>
+          <button id="modal-close" class="text-gray-400 hover:text-white text-2xl font-bold p-1 leading-none">&times;</button>
         </div>
         <div id="modal-body" class="p-6 overflow-y-auto text-gray-300 text-sm leading-relaxed whitespace-pre-line space-y-4">
           <!-- Full Article Content -->
         </div>
       </div>
     </div>
+
+    <!-- Modal for Legal Documents (Terms, Privacy, Creators Rights, Cookies) -->
+    <div id="legal-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+      <div class="bg-gray-900 border border-gray-800 max-w-2xl w-full max-h-[85vh] rounded-2xl flex flex-col overflow-hidden shadow-2xl">
+        <div class="p-6 border-b border-gray-800 flex justify-between items-center">
+          <h3 id="legal-modal-title" class="text-lg md:text-xl font-bold text-white"></h3>
+          <button id="legal-modal-close" class="text-gray-400 hover:text-white text-2xl font-bold p-1 leading-none">&times;</button>
+        </div>
+        <div id="legal-modal-body" class="p-6 overflow-y-auto text-gray-300 text-xs md:text-sm leading-relaxed whitespace-pre-line space-y-4">
+          <!-- Full Legal Content -->
+        </div>
+      </div>
+    </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="border-t border-gray-900 bg-gray-950 py-8 mt-12">
-    <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-      <p>© 2026 Aura Music. All rights reserved.</p>
-      <div class="flex space-x-6">
-        <a href="https://app.auramusic.net" class="hover:text-cyan-400 transition">App</a>
-        <a href="#articles" class="hover:text-cyan-400 transition">Articles</a>
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-banner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-md bg-gray-900/95 border border-gray-800 p-5 rounded-2xl shadow-2xl z-50 backdrop-blur-md hidden flex-col gap-3">
+    <div class="flex items-start gap-3">
+      <span class="text-2xl">🍪</span>
+      <p class="text-xs text-gray-300 leading-relaxed">
+        We use cookies and privacy-friendly analytics to enhance your experience, serve relevant ads, and measure platform activity.
+      </p>
+    </div>
+    <div class="flex gap-2 justify-end mt-2">
+      <button onclick="openLegal('cookies')" class="px-3 py-1.5 text-xs text-gray-400 hover:text-white transition">Settings</button>
+      <button id="accept-cookies" class="px-4 py-1.5 bg-cyan-400 hover:bg-cyan-300 text-black font-bold text-xs rounded-lg transition shadow-md shadow-cyan-500/20">Accept All</button>
+    </div>
+  </div>
+
+  <!-- Footer with Legal & Contact Links -->
+  <footer class="border-t border-gray-900 bg-gray-950 py-10 mt-12">
+    <div class="max-w-5xl mx-auto px-4 flex flex-col gap-6 text-xs text-gray-500">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center space-x-2">
+          <div class="w-6 h-6 rounded-lg bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center font-bold text-black text-xs">A</div>
+          <span class="font-bold text-gray-300 tracking-wider">AURA MUSIC</span>
+        </div>
+        <div class="flex flex-wrap gap-4 md:gap-6">
+          <a href="https://app.auramusic.net" class="hover:text-cyan-400 transition">App</a>
+          <a href="#articles" class="hover:text-cyan-400 transition">Articles</a>
+          <a href="mailto:auramusic.net@gmail.com" class="hover:text-cyan-400 transition flex items-center gap-1 text-cyan-400/90 font-medium">
+            ✉️ auramusic.net@gmail.com
+          </a>
+          <button onclick="openLegal('terms')" class="hover:text-cyan-400 transition">Terms of Service</button>
+          <button onclick="openLegal('privacy')" class="hover:text-cyan-400 transition">Privacy Policy</button>
+          <button onclick="openLegal('rights')" class="hover:text-cyan-400 transition">Creator Rights</button>
+          <button onclick="openLegal('cookies')" class="hover:text-cyan-400 transition">Cookies</button>
+        </div>
+      </div>
+      <div class="border-t border-gray-900 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2">
+        <p>© 2026 Aura Music. Built for AI music creators and competitive audio battles.</p>
+        <p class="text-gray-600">auramusic.net</p>
       </div>
     </div>
   </footer>
@@ -122,8 +162,59 @@
   <!-- Adsterra Social Bar Script -->
   <script type='text/javascript' src='//pl25447196.profitablecpmrate.com/f0/a4/c8/f0a4c8651c68f2bc560416f4e1f74818.js'></script>
 
-  <!-- Script for fetching articles -->
+  <!-- Application Logic -->
   <script>
+    // Legal Content Data
+    const legalTexts = {
+      terms: {
+        title: "Terms of Service",
+        body: `Welcome to Aura Music (auramusic.net).\n\n1. Acceptance of Terms: By accessing our website or web application, you agree to comply with and be bound by these Terms of Service.\n\n2. User Accounts & Arena Battles: Aura Music hosts gamified audio battles and survival rounds. Any attempt to manipulate votes, run automated voting bots, or unfairly alter Health Points (HP) will result in immediate disqualification and platform termination.\n\n3. Aura Coins & Virtual Assets: Aura Coins are in-platform digital reward tokens intended strictly for participation, ranking, and voting. They possess no direct fiat monetary value unless explicitly integrated with authorized monetization programs.\n\n4. Limitation of Liability: Aura Music is provided "as is" without express warranties of uptime or data persistence. We reserve the right to modify arena mechanics and rankings at our discretion.\n\n5. Inquiries: For official inquiries, reach out to auramusic.net@gmail.com.`
+      },
+      privacy: {
+        title: "Privacy Policy",
+        body: `At Aura Music, we respect your data privacy.\n\n1. Information We Collect: We collect minimal user identifiers necessary for gameplay authentication, voting integrity, and site functionality. We use Umami Analytics for cookieless, non-intrusive traffic insights.\n\n2. Advertising Partners: We partner with Google AdSense and Adsterra to display advertisements. These partners may utilize anonymized identifiers and browser storage to optimize ad frequency and deliver relevant placements.\n\n3. Data Storage: Account and match records are securely stored using cloud-hosted databases. We do not sell or trade your personal information to unapproved third parties.\n\n4. Contact: For privacy questions or data deletion requests, contact our team directly at auramusic.net@gmail.com.`
+      },
+      rights: {
+        title: "Creator Rights & Copyright",
+        body: `Aura Music champions independent and generative AI sound artists.\n\n1. Ownership of Creations: Creators retain ownership and full copyright of the tracks, prompts, and audio stems they submit to the arena, subject to the license terms of the generative engine used (e.g., Suno, Udio, local models).\n\n2. Platform License: By submitting audio to the Survival Arena or 1v1 battles, you grant Aura Music a non-exclusive, worldwide, royalty-free license to stream, preview, display, and promote your track within the platform and associated promotional channels.\n\n3. Copyright Infringement & Takedowns: Submitting tracks that violate third-party trademarks, copyrighted vocal samples without permission, or defamatory material is strictly prohibited. Confirmed infringing material will be immediately removed.\n\n4. DMCA & Claims: Send any copyright notices or rights disputes directly to auramusic.net@gmail.com.`
+      },
+      cookies: {
+        title: "Cookie Policy",
+        body: `How Aura Music uses browser storage and cookies:\n\n1. Essential Preferences: We store your cookie consent preferences and session tokens locally on your device to maintain your logged-in state and prevent redundant banner prompts.\n\n2. Advertising Cookies: Third-party advertising networks (such as Google AdSense and Adsterra) may place cookies to prevent ad spam (frequency capping) and provide relevant ads.\n\n3. Controlling Cookies: You can clear or disable cookies via your mobile or desktop browser settings at any time without affecting fundamental site browsing.`
+      }
+    };
+
+    function openLegal(key) {
+      const data = legalTexts[key];
+      if (!data) return;
+      document.getElementById('legal-modal-title').innerText = data.title;
+      document.getElementById('legal-modal-body').innerText = data.body;
+      document.getElementById('legal-modal').classList.remove('hidden');
+    }
+
+    document.getElementById('legal-modal-close').addEventListener('click', () => {
+      document.getElementById('legal-modal').classList.add('hidden');
+    });
+
+    document.getElementById('legal-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'legal-modal') {
+        document.getElementById('legal-modal').classList.add('hidden');
+      }
+    });
+
+    // Cookie Banner Check
+    if (!localStorage.getItem('aura_cookies_accepted')) {
+      document.getElementById('cookie-banner').classList.remove('hidden');
+      document.getElementById('cookie-banner').classList.add('flex');
+    }
+
+    document.getElementById('accept-cookies').addEventListener('click', () => {
+      localStorage.setItem('aura_cookies_accepted', 'true');
+      document.getElementById('cookie-banner').classList.add('hidden');
+      document.getElementById('cookie-banner').classList.remove('flex');
+    });
+
+    // Articles Fetch
     async function loadArticles() {
       const container = document.getElementById('articles-list');
       try {
@@ -182,4 +273,5 @@
     loadArticles();
   </script>
 </body>
-</html>
+    </html>
+    
